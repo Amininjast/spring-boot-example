@@ -17,14 +17,15 @@ public class Main {
 
     @GetMapping("/greet")
     public GreetResponse greet() {
-        return new GreetResponse(
+        GreetResponse response = new GreetResponse(
                 "Hello",
                 List.of("Java", "Golang", "JavaScript"),
-                new Person("Amin")
+                new Person("Amin", 28, 100_000)
         );
+        return response;
     }
 
-    record Person(String name) {
+    record Person(String name, int age, double savings) {
 
     }
 
