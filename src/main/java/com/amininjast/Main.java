@@ -2,10 +2,9 @@ package com.amininjast;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,24 +12,33 @@ import java.util.Objects;
 @SpringBootApplication
 @RestController
 public class Main {
+    //db
+    private static List<Customer> customers;
+
+    static {
+        customers = new ArrayList<>();
+        Customer amin = new Customer(
+                1,
+                "Amin",
+                "Amin@gmail.com",
+                28
+        );
+        customers.add(amin);
+        Customer maryam = new Customer(
+                2,
+                "maryam",
+                "maryam@gmail.com",
+                22
+        );
+        customers.add(maryam);
+    }
+
     public static void main(String[] args) {
+        System.out.println(customers);
         SpringApplication.run(Main.class, args);
     }
 
-    @GetMapping("/greet")
-    public GreetResponse greet(
-            @RequestParam(
-                    value = "name", required = false) String name) {
-        String greetMessage = name == null || name.isBlank() ? "Hello" : "Hello " + name;
-        GreetResponse response = new GreetResponse(
-                greetMessage,
-                List.of("Java", "Golang", "JavaScript"),
-                new Person("Amin", 28, 100_000)
-        );
-        return response;
-    }
-
-    class Customer {
+    static class Customer {
         private Integer age;
         private Integer id;
         private String name;
@@ -39,7 +47,7 @@ public class Main {
         public Customer() {
         }
 
-        public Customer(Integer age, Integer id, String name, String email) {
+        public Customer(Integer id, String name, String email, Integer age) {
             this.age = age;
             this.id = id;
             this.name = name;
@@ -94,21 +102,11 @@ public class Main {
         @Override
         public String toString() {
             return "Customer{" +
-                    "age=" + age +
-                    ", id=" + id +
-                    ", name='" + name + '\'' +
+                    "id=" + id +
+                    ", name=" + name +
                     ", email='" + email + '\'' +
+                    ", age='" + age + '\'' +
                     '}';
         }
-    }
-
-    record Person(String name, int age, double savings) {
-    }
-
-    record GreetResponse(
-            String greet,
-            List<String> favProgrammingLanguages,
-            Person person
-    ) {
     }
 }
