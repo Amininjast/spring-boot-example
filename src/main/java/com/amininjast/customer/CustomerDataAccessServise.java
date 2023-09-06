@@ -1,9 +1,12 @@
 package com.amininjast.customer;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class CustomerDataAccessServise implements CustomerDao {
 
     private static List<Customer> customers;
