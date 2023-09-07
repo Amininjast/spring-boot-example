@@ -13,7 +13,6 @@ public class Main {
 
         ConfigurableApplicationContext applicationContext = SpringApplication.run(Main.class, args);
         printBeanNames(applicationContext);
-
     }
 
     private static void printBeanNames(ConfigurableApplicationContext applicationContext) {
