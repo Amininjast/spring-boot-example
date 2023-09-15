@@ -15,8 +15,17 @@ public class Customer {
             strategy = GenerationType.SEQUENCE,
             generator = "customer_id_sequence")
     private Integer id;
+    @Column(
+            nullable = false
+    )
     private Integer age;
+    @Column(
+            nullable = false
+    )
     private String name;
+    @Column(
+            nullable = false
+    )
     private String email;
 
     public Customer() {
