@@ -1,13 +1,13 @@
 services:
   db:
-    container_name: postgres
+    container_name: postgresCont
     image: postgres
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      PGDATA: /data/postgres
+      POSTGRES_PASSWORD: pass123
+      PGDATA: /var/lib/postgresql/data
     volumes:
-      - db:/data/postgres
+      - db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
@@ -20,3 +20,4 @@ networks:
 
 volumes:
   db:
+    driver: local
