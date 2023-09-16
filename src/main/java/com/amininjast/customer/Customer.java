@@ -38,6 +38,12 @@ public class Customer {
         this.email = email;
     }
 
+    public Customer(Integer age, String name, String email) {
+        this.age = age;
+        this.name = name;
+        this.email = email;
+    }
+
     public Integer getAge() {
         return age;
     }
