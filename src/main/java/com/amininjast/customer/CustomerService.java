@@ -39,4 +39,18 @@ public class CustomerService {
                 customerRegisterationRequest.email());
         customerDao.insertCustomer(customer);
     }
+
+    public void deleteCustomer(Integer customerId) {
+        if (!customerDao.existPersonWithId(customerId)) {
+            throw new ResourceNotFoundException("in id nist");
+        }
+        customerDao.deleteCustomerById(customerId);
+    }
+
+    public void updateCustomer(Integer customerId) {
+        if (!customerDao.existPersonWithId(customerId)) {
+            throw new ResourceNotFoundException("in id nis");
+        }
+        customerDao.updateCustomerById(customerId);
+    }
 }
