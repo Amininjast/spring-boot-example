@@ -1,6 +1,7 @@
 package com.amininjast.customer;
 
-import com.amininjast.exception.ResourceNotFound;
+import com.amininjast.exception.DuplicateException;
+import com.amininjast.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,21 @@ public class CustomerService {
 
     public Customer getCustomer(Integer id) {
         return customerDao.selectCustomerById(id)
-                .orElseThrow(() -> new ResourceNotFound(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "customer with id [%s] not found".formatted(id)));
+    }
+
+    public void addCustomer(
+            CustomerRegisterationRequest customerRegisterationRequest) {
+        //check if email exists
+        if (customerDao.existPersonWithEmail(customerRegisterationRequest.email())) {
+            throw new DuplicateException("email already exist");
+        }
+        //add
+        Customer customer = new Customer(
+                customerRegisterationRequest.age(),
+                customerRegisterationRequest.name(),
+                customerRegisterationRequest.email());
+        customerDao.insertCustomer(customer);
     }
 }
