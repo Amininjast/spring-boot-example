@@ -64,7 +64,7 @@ public class CustomerListDataAccessServise implements CustomerDao {
     }
 
     @Override
-    public void updateCustomerById(Integer id) {
-        customers.stream().anyMatch(c -> c.getId().equals(id));
+    public void updateCustomer(Customer update) {
+        customers.add(update);
     }
 }

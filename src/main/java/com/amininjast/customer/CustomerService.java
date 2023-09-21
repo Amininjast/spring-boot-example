@@ -1,6 +1,8 @@
 package com.amininjast.customer;
 
 import com.amininjast.exception.DuplicateException;
+import com.amininjast.exception.DuplicateResourceException;
+import com.amininjast.exception.RequestValidationException;
 import com.amininjast.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -47,10 +49,31 @@ public class CustomerService {
         customerDao.deleteCustomerById(customerId);
     }
 
-    public void updateCustomer(Integer customerId) {
-        if (!customerDao.existPersonWithId(customerId)) {
-            throw new ResourceNotFoundException("in id nis");
+    public void updateCustomer(Integer customerId,
+                               CustomerUpdateRequest updateRequest) {
+        Customer customer = getCustomer(customerId);
+        boolean changes = false;
+
+        if (updateRequest.name() != null && !updateRequest.name().equals(customer.getName())) {
+            customer.setName(updateRequest.name());
+            changes = true;
         }
-        customerDao.updateCustomerById(customerId);
+
+        if (updateRequest.age() != null && !updateRequest.age().equals(customer.getAge())) {
+            customer.setAge(updateRequest.age());
+            changes = true;
+        }
+
+        if (updateRequest.email() != null && !updateRequest.email().equals(customer.getEmail())) {
+            if (customerDao.existPersonWithEmail(updateRequest.email())) {
+                throw new DuplicateResourceException("email already taken");
+            }
+            customer.setEmail(updateRequest.email());
+            changes = true;
+        }
+        if (!changes) {
+            throw new RequestValidationException("no data changes found");
+        }
+        customerDao.updateCustomer(customer);
     }
 }
